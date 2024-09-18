@@ -9,10 +9,10 @@ import java.util.ArrayList;
 public class LCS_GUI {
     public static void main(String[] args) {
         JFrame frame = new JFrame("LONGEST COMMON SUBSEQUENCE GUI");
-        String[] X;// = {"A","B","C","B","D","A","B"};
-        String[] Y;// = {"B","D","C","A","B","A"};
+        String[] X = {"A","B","C","B","D","A","B"};
+        String[] Y = {"B","D","C","A","B","A"};
         // Inputs X & Y from dialog box 
-       while (true) {
+       /*  while (true) {
             String XSeq = JOptionPane.showInputDialog(frame, "Enter the X Sequence (space-separated): ");
             if (XSeq != null && XSeq.length()!=0) {
                 X = XSeq.split(" ");
@@ -29,11 +29,11 @@ public class LCS_GUI {
             } else {
                 JOptionPane.showMessageDialog(frame, "It is a Required Field", "Input Y Sequence",JOptionPane.WARNING_MESSAGE);
             }
-        }
+        }*/
         LCS_Algo backend = new LCS_Algo(X.length, Y.length, X, Y);
         backend.algo();
         backend.traceLCS(X.length, Y.length, 0);
-        BackgroundPanel mainPanel = new BackgroundPanel(X.length, Y.length, X, Y, backend.trace, backend.lcsSTR, backend.lcsX, backend.lcsY);
+        BackgroundPanel mainPanel = new BackgroundPanel(X.length, Y.length, X, Y, backend.trace, backend.direct, backend.lcsSTR, backend.lcsX, backend.lcsY);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(1000, 500));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -41,7 +41,17 @@ public class LCS_GUI {
         frame.setVisible(true);
     }
     static class BackgroundPanel extends JPanel{
-        BackgroundPanel(int lengthX, int lengthY, String[] x, String[] y, int[][] trace, String[] lcstr, String[] lcsx, String[] lcsy){
+        private String map(String str){
+            if(str==" UP ")
+                return "\u2191";
+            else if(str=="LEFT")
+                return "\u2190";
+            else if(str==" YES")
+                return "\u2196";
+            else
+                return "+";
+        }
+        BackgroundPanel(int lengthX, int lengthY, String[] x, String[] y, int[][] trace, String[][] direction, String[] lcstr, String[] lcsx, String[] lcsy){
             GridBagConstraints gc = new GridBagConstraints();            
             gc.weightx = 1;
             this.setBackground(Color.WHITE);
@@ -61,30 +71,61 @@ public class LCS_GUI {
                 gc.fill = GridBagConstraints.BOTH;
                 Main.setLayout(new GridBagLayout());  // Use GridBagLayout for Main
                 GridBagConstraints mainGc = new GridBagConstraints();
-                
-                // Add Trace panel to the Main panel
-                JPanel Trace = new JPanel();
-                    Trace.setLayout(new GridLayout(lengthX + 1, lengthY + 1, 2, 2));
-                    JButton[][] traceButtons = new JButton[lengthX + 1][lengthY + 1];
-                    for (int i = 0; i < (lengthX + 1); i++) {
-                        for (int j = 0; j < (lengthY + 1); j++) {
-                            traceButtons[i][j] = new JButton(String.valueOf(trace[i][j]));
-                            traceButtons[i][j].setFocusPainted(false); // No focus effect when clicked
-                            traceButtons[i][j].setContentAreaFilled(false); // No click area background
-                            traceButtons[i][j].setBackground(Color.WHITE);
-                            traceButtons[i][j].setForeground(Color.BLACK);
-                            traceButtons[i][j].setOpaque(true);
-                            Trace.add(traceButtons[i][j]);
+            
+                JPanel gridContainer = new JPanel();
+                    gridContainer.setBackground(Color.WHITE);
+                    // Add Trace panel to the Main panel
+                    JPanel Trace = new JPanel();
+                        Trace.setLayout(new GridLayout(lengthX + 1, lengthY + 1, 2, 2));
+                        JButton[][] traceButtons = new JButton[lengthX + 1][lengthY + 1];
+                        for (int i = 0; i < (lengthX + 1); i++) {
+                            for (int j = 0; j < (lengthY + 1); j++) {
+                                traceButtons[i][j] = new JButton(String.valueOf(trace[i][j]));
+                                traceButtons[i][j].setFocusPainted(false); // No focus effect when clicked
+                                traceButtons[i][j].setContentAreaFilled(false); // No click area background
+                                traceButtons[i][j].setBackground(Color.WHITE);
+                                traceButtons[i][j].setForeground(Color.BLACK);
+                                traceButtons[i][j].setOpaque(true);
+                                Trace.add(traceButtons[i][j]);
+                            }
                         }
-                    }
-                    
-                    // Set constraints for Trace
+                        
+                        // Set constraints for Trace
+                        mainGc.gridx = 0;
+                        mainGc.gridy = 0;
+                        mainGc.weightx = 0.5;
+                        mainGc.weighty = 0.8;  // Most of the space should be taken by Trace
+                        gridContainer.add(Trace, mainGc);  // Add Trace to Main with constraints
+                
+                    JPanel Direct = new JPanel();
+                        Direct.setLayout(new GridLayout(lengthX + 1, lengthY + 1, 2, 2));
+                        JButton[][] directButtons = new JButton[lengthX + 1][lengthY + 1];
+                        for (int i = 0; i < (lengthX + 1); i++) {
+                            for (int j = 0; j < (lengthY + 1); j++) {
+                                if(i==0 || j==0)
+                                    directButtons[i][j] = new JButton("X");
+                                else
+                                    directButtons[i][j] = new JButton(map(direction[i][j]));
+                                directButtons[i][j].setFocusPainted(false); // No focus effect when clicked
+                                directButtons[i][j].setContentAreaFilled(false); // No click area background
+                                directButtons[i][j].setBackground(Color.WHITE);
+                                directButtons[i][j].setForeground(Color.BLACK);
+                                directButtons[i][j].setOpaque(true);
+                                Direct.add(directButtons[i][j]);
+                            }
+                        }
+                        
+                        // Set constraints for Trace
+                        mainGc.gridx = 1;
+                        mainGc.gridy = 0;
+                        mainGc.weightx = 0.5;
+                        mainGc.weighty = 0.8;  // Most of the space should be taken by Trace
+                        gridContainer.add(Direct, mainGc);  // Add Trace to Main with constraints
                     mainGc.gridx = 0;
                     mainGc.gridy = 0;
-                    mainGc.weightx = 0.5;
-                    mainGc.weighty = 0.8;  // Most of the space should be taken by Trace
-                    Main.add(Trace, mainGc);  // Add Trace to Main with constraints
-                    
+                    mainGc.weightx = 1;
+                    mainGc.weighty = 0.8;
+                    Main.add(gridContainer, mainGc);
                 // Add Element panel to the Main panel
                 JPanel Element = new JPanel();
                     Element.setLayout(new GridLayout(2, 1));
@@ -139,7 +180,7 @@ public class LCS_GUI {
                     
                 // To dynamically update the text bar:
                 textBar.append("Table Shows Memoized Values of Longest Commom Subsequence Algorithm\n");
-                textBar.append("Now We will Retrace Back in the Internally Made Memoized Directions\n");
+                textBar.append("Now We will Retrace Back in the Matrix Shown that conatins Memoized Directions\n");
                 mainGc.gridx = 0;
                 mainGc.gridy = 1;
                 mainGc.weighty = 0.1;  // Less space for the Element panel
@@ -147,7 +188,7 @@ public class LCS_GUI {
                 Main.add(Element, mainGc);  // Add Element to Main with constraints
             RUN.addMouseListener(new MouseAdapter() {
                 ArrayList<JButton> reset = new ArrayList<>();
-                Timer timer = new Timer(2000, null);  // 500ms delay
+                Timer timer = new Timer(2500, null);  // 500ms delay
                 final int[] outerIndex = {0};  // Tracks the outer loop index (i)
                 final int[] innerIndex = {0};  // Tracks the inner loop index (j)
 
@@ -171,6 +212,8 @@ public class LCS_GUI {
                                     // Color the buttons
                                     traceButtons[row][col].setBackground(Color.CYAN);
                                     reset.add(traceButtons[row][col]);
+                                    directButtons[row][col].setBackground(Color.CYAN);
+                                    reset.add(directButtons[row][col]);
                                     traceButtonxy[0][row].setBackground(Color.RED);
                                     reset.add(traceButtonxy[0][row]);
                                     traceButtonxy[1][col].setBackground(Color.ORANGE);
