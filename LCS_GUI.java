@@ -9,10 +9,10 @@ import java.util.ArrayList;
 public class LCS_GUI {
     public static void main(String[] args) {
         JFrame frame = new JFrame("LONGEST COMMON SUBSEQUENCE GUI");
-        String[] X = {"A","B","C","B","D","A","B"};
-        String[] Y = {"B","D","C","A","B","A"};
+        String[] X;// = {"A","B","C","B","D","A","B"};
+        String[] Y;// = {"B","D","C","A","B","A"};
         // Inputs X & Y from dialog box 
-       /*  while (true) {
+       while (true) {
             String XSeq = JOptionPane.showInputDialog(frame, "Enter the X Sequence (space-separated): ");
             if (XSeq != null && XSeq.length()!=0) {
                 X = XSeq.split(" ");
@@ -29,11 +29,11 @@ public class LCS_GUI {
             } else {
                 JOptionPane.showMessageDialog(frame, "It is a Required Field", "Input Y Sequence",JOptionPane.WARNING_MESSAGE);
             }
-        }*/
+        }
         LCS_Algo backend = new LCS_Algo(X.length, Y.length, X, Y);
         backend.algo();
         backend.traceLCS(X.length, Y.length, 0);
-        BackgroundPanel mainPanel = new BackgroundPanel(X.length, Y.length, X, Y, backend.trace, backend.direct, backend.lcsSTR, backend.lcsX, backend.lcsY);
+        BackgroundPanel mainPanel = new BackgroundPanel(X.length, Y.length, X, Y, backend.trace, backend.direct, backend.lcsSTR, backend.lcsX, backend.lcsY, backend.select);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(1000, 500));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -51,7 +51,7 @@ public class LCS_GUI {
             else
                 return "+";
         }
-        BackgroundPanel(int lengthX, int lengthY, String[] x, String[] y, int[][] trace, String[][] direction, String[] lcstr, String[] lcsx, String[] lcsy){
+        BackgroundPanel(int lengthX, int lengthY, String[] x, String[] y, int[][] trace, String[][] direction, String[] lcstr, String[] lcsx, String[] lcsy, String[] select){
             GridBagConstraints gc = new GridBagConstraints();            
             gc.weightx = 1;
             this.setBackground(Color.WHITE);
@@ -188,7 +188,7 @@ public class LCS_GUI {
                 Main.add(Element, mainGc);  // Add Element to Main with constraints
             RUN.addMouseListener(new MouseAdapter() {
                 ArrayList<JButton> reset = new ArrayList<>();
-                Timer timer = new Timer(2500, null);  // 500ms delay
+                Timer timer = new Timer(1300, null);  // 500ms delay
                 final int[] outerIndex = {0};  // Tracks the outer loop index (i)
                 final int[] innerIndex = {0};  // Tracks the inner loop index (j)
 
@@ -208,16 +208,19 @@ public class LCS_GUI {
                                     // Extract row and col based on the current indices
                                     int row = Character.getNumericValue(lcsx[outerIndex[0]].charAt(innerIndex[0]));
                                     int col = Character.getNumericValue(lcsy[outerIndex[0]].charAt(innerIndex[0]));
+                                    int sel = Character.getNumericValue(select[outerIndex[0]].charAt(innerIndex[0]));
             
                                     // Color the buttons
-                                    traceButtons[row][col].setBackground(Color.CYAN);
-                                    reset.add(traceButtons[row][col]);
-                                    directButtons[row][col].setBackground(Color.CYAN);
+                                    directButtons[row][col].setBackground(Color.ORANGE);
                                     reset.add(directButtons[row][col]);
-                                    traceButtonxy[0][row].setBackground(Color.RED);
-                                    reset.add(traceButtonxy[0][row]);
-                                    traceButtonxy[1][col].setBackground(Color.ORANGE);
-                                    reset.add(traceButtonxy[1][col]);
+                                    if(sel == 1){
+                                        traceButtons[row][col].setBackground(Color.CYAN);
+                                        reset.add(traceButtons[row][col]);
+                                        traceButtonxy[0][row].setBackground(Color.RED);
+                                        reset.add(traceButtonxy[0][row]);
+                                        traceButtonxy[1][col].setBackground(Color.RED);
+                                        reset.add(traceButtonxy[1][col]);
+                                    }
                                     // Move to the next inner loop index (next button in sequence)
                                     innerIndex[0]++;
                                 } else {
@@ -250,9 +253,10 @@ public class LCS_GUI {
 class LCS_Algo {
     public int[][] trace;
     public String[][] direct;
-    public String[] lcsSTR = new String[10];
-    public String[] lcsX = new String[10];
-    public String[] lcsY = new String[10];
+    public String[] lcsSTR = new String[20];
+    public String[] lcsX = new String[20];
+    public String[] lcsY = new String[20];
+    public String[] select = new String[20];
     private int index = 0;
     private int lenghtX;
     private int lenghtY;
@@ -275,6 +279,7 @@ class LCS_Algo {
         lcsSTR[0] = "";
         lcsX[0] = "";
         lcsY[0] = "";
+        select[0] = "";
     }
     public void algo(){
         for( int i=1; i<=lenghtX; i++){
@@ -306,20 +311,31 @@ class LCS_Algo {
                 lcsSTR[index] = lcsSTR[index] + X[i-1];
                 lcsX[index] = lcsX[index] + i;
                 lcsY[index] = lcsY[index] + j;
+                select[index] = select[index] + 1;
                 i--;
                 j--;
             }
             else if(direct[i][j].equals(" UP ")){
+                lcsX[index] = lcsX[index] + i;
+                lcsY[index] = lcsY[index] + j;
+                select[index] = select[index] + 0;
                 i--;
             }
             else if(direct[i][j].equals("LEFT")){
+                lcsX[index] = lcsX[index] + i;
+                lcsY[index] = lcsY[index] + j;
+                select[index] = select[index] + 0;
                 j--;
             }
             else if(direct[i][j].equals(" U/L")){
+                lcsX[index] = lcsX[index] + i;
+                lcsY[index] = lcsY[index] + j;
+                select[index] = select[index] + 0;
                 this.index++;
                 lcsSTR[this.index] = lcsSTR[index];
                 lcsX[this.index] = lcsX[index];
                 lcsY[this.index] = lcsY[index];
+                select[this.index] = select[index];
                 traceLCS(i, j-1, this.index);
                 i--;
             }
