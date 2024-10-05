@@ -198,10 +198,11 @@ public class LCS_GUI {
                     Element.add(secondRowPanel);
                 // TextArea at Bottom to Print Longest Subsequences
                 JTextArea textBar = new JTextArea(5, 30);  // 5 rows and 30 columns
-                textBar.setEditable(false);  // Make it read-only
-                textBar.setFont(new Font("Cambria", Font.PLAIN, 14));  // Set font
-                textBar.setBackground(Color.BLACK);  // Set background color for visibility
-                textBar.setForeground(Color.WHITE);  // Set text color
+                    textBar.setEditable(false);  // Make it read-only
+                    textBar.setFont(new Font("Cambria", Font.PLAIN, 14));  // Set font
+                    textBar.setBackground(Color.BLACK);  // Set background color for visibility
+                    textBar.setForeground(Color.WHITE);  // Set text color
+                    textBar.setMargin(new Insets(10, 10, 10, 10)); // Padding Inside TextArea
                 
                 // Adding JScrollPane in case the text overflows
                 JScrollPane scrollPane = new JScrollPane(textBar);
@@ -362,7 +363,7 @@ class LCS_Algo {
             // If Both terms of Sequences are equal Choose Them 
             if(direct[i][j].equals(" YES")){
                 // Add the term of Sequenece to String
-                lcsSTR.set(index, lcsSTR.get(index)+X[i-1]);
+                lcsSTR.set(index, lcsSTR.get(index)+X[i-1]+" ");
                 // append True(means to be selected) in 2D Select array at index
                 select.get(index).add(true);
                 // Go in diagonal back direction
