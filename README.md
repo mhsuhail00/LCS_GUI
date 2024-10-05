@@ -51,11 +51,11 @@ By storing the results of overlapping subproblems, **Memoization** significantly
 
 ### Key Rules
 
-1. If `x<sub>m</sub> == y<sub>n</sub>`, then:
-   - Append `x<sub>m</sub>` to the LCS of `X<sub>m-1</sub>` and `Y<sub>n-1</sub>`.
-2. If `x<sub>m</sub> != y<sub>n</sub>`, solve the following subproblems:
-   - LCS of `X<sub>m-1</sub>` and `Y<sub>n</sub>`
-   - LCS of `X<sub>m</sub>` and `Y<sub>n-1</sub>`
+1. If **x<sub>m</sub> == y<sub>n</sub>**, then:
+   - Append **x<sub>m</sub>** to the LCS of **X<sub>m-1</sub>** and **Y<sub>n-1</sub>**.
+2. If **x<sub>m</sub> != y<sub>n</sub>**, solve the following subproblems:
+   - LCS of **X<sub>m-1</sub>** and **Y<sub>n</sub>**
+   - LCS of **X<sub>m</sub>** and **Y<sub>n-1</sub>**
    
 This approach ensures that overlapping subproblems are efficiently computed and stored.
 
