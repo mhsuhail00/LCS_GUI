@@ -28,7 +28,7 @@ This repository demonstrates an optimized solution to find the **Longest Common 
 
 Given two sequences:
 
-- **X~m~ = <x₁, x₂, x₃, ..., x~m~>**
+- **X<sub>m</sub> = <x₁, x₂, x₃, ..., x~m~>**
 - **Yn = <y₁, y₂, y₃, ..., yn>**
 
 The goal is to find the **Longest Common Subsequence (LCS)**:
