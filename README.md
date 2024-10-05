@@ -17,7 +17,7 @@
 
 ## Demo
 
-
+![GUI DEMO](https://github.com/mhsuhail00/LCS_GUI/blob/main/Demo.gif)
 
 ## Introduction
 
@@ -28,12 +28,12 @@ This repository demonstrates an optimized solution to find the **Longest Common 
 
 Given two sequences:
 
-- **X<sub>m</sub> = <x₁, x₂, x₃, ..., x~m~>**
-- **Yn = <y₁, y₂, y₃, ..., yn>**
+- **X<sub>m</sub> = <x₁, x₂, x₃, ..., x<sub>m</sub>>**
+- **Y<sub>n</sub> = <y₁, y₂, y₃, ..., y<sub>n</sub>>**
 
 The goal is to find the **Longest Common Subsequence (LCS)**:
 
-- **Zk = <z₁, z₂, z₃, ..., zk>**
+- **Z<sub>k</sub> = <z₁, z₂, z₃, ..., z<sub>k</sub>>**
 
 **DP with Memoization** works when there are **Overlapping Subproblems**(which are **Optimal**)
 
@@ -51,11 +51,11 @@ By storing the results of overlapping subproblems, **Memoization** significantly
 
 ### Key Rules
 
-1. If `xm == yn`, then:
-   - Append `xm` to the LCS of `Xm-1` and `Yn-1`.
-2. If `xm != yn`, solve the following subproblems:
-   - LCS of `Xm-1` and `Yn`
-   - LCS of `Xm` and `Yn-1`
+1. If `x<sub>m</sub> == y<sub>n</sub>`, then:
+   - Append `x<sub>m</sub>` to the LCS of `X<sub>m-1</sub>` and `Y<sub>n-1</sub>`.
+2. If `x<sub>m</sub> != y<sub>n</sub>`, solve the following subproblems:
+   - LCS of `X<sub>m-1</sub>` and `Y<sub>n</sub>`
+   - LCS of `X<sub>m</sub>` and `Y<sub>n-1</sub>`
    
 This approach ensures that overlapping subproblems are efficiently computed and stored.
 
