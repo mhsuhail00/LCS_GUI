@@ -10,10 +10,7 @@
 - [Algorithm Explanation](#algorithm-explanation)
   - [Key Rules](#key-rules)
   - [Steps to Compute LCS](#steps-to-compute-lcs)
-- [Code Example](#code-example)
-- [How to Run](#how-to-run)
-- [Contributing](#contributing)
-- [License](#license)
+- [How to Use](#how-to-use)
 
 ## Demo
 
@@ -67,3 +64,16 @@ This approach ensures that overlapping subproblems are efficiently computed and 
    - `C[i, j] = 0`, if `i == 0` or `j == 0`
    - `C[i, j] = C[i-1, j-1] + 1`, if `X[i-1] == Y[j-1]`
    - `C[i, j] = max(C[i-1, j], C[i, j-1])`, if `X[i-1] != Y[j-1]`
+
+## How to Use:
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/mhsuhail00/LCS_GUI.git
+
+2. Execute Code:
+   - Navigate to Directory
+   ```bash
+   javac LCS_GUI.java;
+   java LCS_GUI
