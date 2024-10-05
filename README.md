@@ -1,7 +1,7 @@
 # Longest Common Subsequence (LCS) Using Dynamic Programming (DP) with Memoization
-Longest Common Subsequence Graphical User Interface. The Backend Algorithm is based on Dynamic-Programming Approach with Memoization. It takes Sequence in which the terms are String of any length, Need Not Single Character.
 
 ## Table of Contents
+- [Demo](#demo)
 - [Introduction](#introduction)
 - [Problem Definition](#problem-definition)
 - [Approach](#approach)
@@ -15,22 +15,27 @@ Longest Common Subsequence Graphical User Interface. The Backend Algorithm is ba
 - [Contributing](#contributing)
 - [License](#license)
 
+## Demo
+
+
+
 ## Introduction
 
-This repository demonstrates an optimized solution to find the **Longest Common Subsequence (LCS)** between two sequences using **Dynamic Programming (DP)** with **Memoization**. The LCS problem is a classic algorithmic challenge that finds the longest subsequence common to two sequences, which appears in both in the same order, but not necessarily consecutively.
+This repository demonstrates an optimized solution to find the **Longest Common Subsequence (LCS)** with Graphical User Interface between two sequences using **Dynamic Programming (DP)** with **Memoization**. The LCS problem is a classic algorithmic challenge that finds the longest subsequence common to two sequences, which appears in both in the same order, but not necessarily consecutively. It takes Sequence in which the terms are String of any length, Need Not Single Character.
+
 
 ## Problem Definition
 
 Given two sequences:
 
-- **Xm = <x₁, x₂, x₃, ..., xm>**
+- **X~m~ = <x₁, x₂, x₃, ..., x~m~>**
 - **Yn = <y₁, y₂, y₃, ..., yn>**
 
 The goal is to find the **Longest Common Subsequence (LCS)**:
 
 - **Zk = <z₁, z₂, z₃, ..., zk>**
 
-The problem can be solved efficiently using **Dynamic Programming with Memoization**, where overlapping subproblems are stored in a 2D array for reuse.
+**DP with Memoization** works when there are **Overlapping Subproblems**(which are **Optimal**)
 
 ## Approach
 
